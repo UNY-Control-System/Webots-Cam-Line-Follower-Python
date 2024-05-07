@@ -1,0 +1,48 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.2786198521571327 -0.3367611423719018 0.8994236548881228 4.7958266651617185
+  position 0.23734291304308455 0.8287492528536754 0.5147034977856051
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorTileSize 1 1
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "C:/Users/PC/Pictures/Inkscape/arena1.png"
+      ]
+      repeatS FALSE
+      repeatT FALSE
+      filtering 0
+    }
+    metalness 0
+  }
+  wallAppearance BrushedAluminium {
+    textureTransform TextureTransform {
+    }
+  }
+}
+E-puck {
+  hidden position_0_0 -5.528492229245094e-08
+  hidden position_0_1 -1.6345367141148233e-08
+  hidden rotation_1 0 -1 0 5.16191365590357e-08
+  translation 0.37399999999997274 0.3700000001754172 -5.595694358154907e-05
+  rotation 2.2520043283750886e-09 -2.6753586156888493e-10 -0.9999999999999999 1.5706859554754544
+  controller "camera_access"
+  version "2"
+  camera_width 1280
+  camera_height 720
+  camera_rotation 0 1 0 0.3927003061004253
+}
