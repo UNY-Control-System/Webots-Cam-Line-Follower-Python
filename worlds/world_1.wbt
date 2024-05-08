@@ -9,8 +9,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.2786198521571327 -0.3367611423719018 0.8994236548881228 4.7958266651617185
-  position 0.23734291304308455 0.8287492528536754 0.5147034977856051
+  orientation -0.33766035660437155 -0.3271563045357122 0.8825838407654794 4.556528391272014
+  position 0.4140733909830755 0.5895607604738662 0.1909679364556836
 }
 TexturedBackground {
 }
@@ -21,7 +21,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "C:/Users/PC/Pictures/Inkscape/arena1.png"
+        "../arena1.png"
       ]
       repeatS FALSE
       repeatT FALSE
@@ -37,12 +37,15 @@ RectangleArena {
 E-puck {
   hidden position_0_0 -5.528492229245094e-08
   hidden position_0_1 -1.6345367141148233e-08
+  hidden translation_1 0 0.02599999999999981 0.02
   hidden rotation_1 0 -1 0 5.16191365590357e-08
-  translation 0.37399999999997274 0.3700000001754172 -5.595694358154907e-05
-  rotation 2.2520043283750886e-09 -2.6753586156888493e-10 -0.9999999999999999 1.5706859554754544
+  hidden translation_2 0 -0.026000000000000138 0.02
+  hidden rotation_2 0 1 0 0
+  translation 0.40822399987889296 0.402691999985136 -5.595692968308509e-05
+  rotation 1.7011919864059854e-09 -8.189718672205892e-10 -1 1.5699999967961664
   controller "camera_access"
   version "2"
   camera_width 1280
   camera_height 720
-  camera_rotation 0 1 0 0.3927003061004253
+  camera_rotation 0 1 0 0.27
 }
