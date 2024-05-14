@@ -1,2 +1,2 @@
-# Fuzzy-Logic-Line-Follower-Webots-Python
- Fuzzy Logic Project
+# Webots Line Follower Using Camera
+_This repo still in development~_
