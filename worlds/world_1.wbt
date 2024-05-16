@@ -9,8 +9,9 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.33766035660437155 -0.3271563045357122 0.8825838407654794 4.556528391272014
-  position 0.4140733909830755 0.5895607604738662 0.1909679364556836
+  orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
+  position 0.4394473445911078 0.4002268853462112 1.2387965475742668
+  follow "e-puck"
 }
 TexturedBackground {
 }
@@ -35,17 +36,11 @@ RectangleArena {
   }
 }
 E-puck {
-  hidden position_0_0 -5.528492229245094e-08
-  hidden position_0_1 -1.6345367141148233e-08
-  hidden translation_1 0 0.02599999999999981 0.02
-  hidden rotation_1 0 -1 0 5.16191365590357e-08
-  hidden translation_2 0 -0.026000000000000138 0.02
-  hidden rotation_2 0 1 0 0
-  translation 0.40822399987889296 0.402691999985136 -5.595692968308509e-05
-  rotation 1.7011919864059854e-09 -8.189718672205892e-10 -1 1.5699999967961664
-  controller "camera_access"
+  translation 0.40842 0.394564 -5.15227e-05
+  rotation 5.543206238379913e-05 5.5478275711733615e-05 -0.9999999969247237 1.569998363221918
+  controller "pid_controller"
   version "2"
   camera_width 1280
   camera_height 720
-  camera_rotation 0 1 0 0.27
+  camera_rotation 0 1 0 1
 }
