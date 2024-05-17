@@ -97,7 +97,7 @@ while robot.step(timestep) != -1:
         PID = 0 if time == 0.032 else CalculatePID(error, integral, derivative)
         
         # Get the delta error
-        delta_err = e_prev - (error)
+        delta_err = e_prev - error
 
         # Set the current as previous error to next iteration
         e_prev = error
