@@ -101,6 +101,7 @@ while robot.step(timestep) != -1:
         # angle = np.degrees(angle)
         # I still confused. Should I use angle instead of using delta x.
         
+        # Calculate the PID
         t = robot.getTime()
         integral = integral + center_x
 
@@ -112,16 +113,19 @@ while robot.step(timestep) != -1:
             PID = CalculatePID(x_pot, center_x, e_prev, integral)
             # print(f"PID: {PID}, Angle: {angle}")
 
+        delta_err = e_prev - (x_pot - center_x)
         t_prev = t
         e_prev = x_pot - center_x
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+    print(f"{x_pot - center_x}, {delta_err}")
+
     # Set the motors velocity
-    leftVel = 3 - PID
-    rightVel = 3 + PID
-    print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {center_x - x_pot}")
+    leftVel = 5 - PID
+    rightVel = 5 + PID
+    # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {center_x - x_pot}")
 
     # Set motors velocity
     leftMotor.setVelocity(leftVel)

@@ -1,0 +1,17 @@
+Base Velocity = 5
+Largest Error = 414
+Smallest Error = -459
+Largest Delta Error = 113
+Smallest Delta Error = -116
+
+Base Velocity = 4
+Largest Error = 275
+Smallest Error = -330
+Largest Delta Error = 70
+Smallest Delta Error = -91
+
+Base Velocity = 3
+Largest Error = 103
+Smallest Error = -143
+Largest Delta Error = 61
+Smallest Delta Error = -24
