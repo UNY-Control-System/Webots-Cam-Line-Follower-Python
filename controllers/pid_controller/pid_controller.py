@@ -85,7 +85,6 @@ while robot.step(timestep) != -1:
 
         # Get the center of the bounding rectangle
         center_x = x + w//2
-        # center_y = y + h//2
         center_y = y_pot
 
         # Draw the center of the bounding rectangle
