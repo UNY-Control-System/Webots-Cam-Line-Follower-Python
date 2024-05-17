@@ -10,7 +10,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
-  position 0.4394473445911078 0.4002268853462112 1.2387965475742668
+  position 0.30392489565016667 0.07688199230768031 1.1141310470870163
   follow "e-puck"
 }
 TexturedBackground {
@@ -22,7 +22,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "../arena1.png"
+        "../variety_custom_arena.png"
       ]
       repeatS FALSE
       repeatT FALSE
@@ -36,8 +36,8 @@ RectangleArena {
   }
 }
 E-puck {
-  translation 0.40842 0.394564 -5.15227e-05
-  rotation 5.543206238379913e-05 5.5478275711733615e-05 -0.9999999969247237 1.569998363221918
+  translation 0.222459 0.0871292 -4.25233e-05
+  rotation 4.324854182521569e-05 -6.895406851970207e-05 -0.9999999966874501 -1.5662260741055185
   controller "pid_controller"
   version "2"
   camera_width 1280

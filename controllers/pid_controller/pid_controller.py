@@ -24,13 +24,13 @@ e_prev = 0
 integral = 0
 
 # Scale is used for OpenCV Resize Window
-scale = 0.65
+scale = 0.35
 
 # PID Configuration
 def CalculatePID(error, integral, derivative):
     Kp = 0.02
-    Ki = 0.00000001
-    Kd = 0.00001
+    Ki = 0.004
+    Kd = 0.01
     u = Kp * error + Ki * integral + Kd * derivative
     return u
 
@@ -107,8 +107,17 @@ while robot.step(timestep) != -1:
         break
 
     # Set the motors velocity
-    leftVel = 3.5 - PID
-    rightVel = 3.5 + PID
+    leftVel = 6 - PID
+    rightVel = 6 + PID
+
+    if leftVel >= 7.536:
+        leftVel = 7.536
+    elif rightVel >= 7.536:
+        rightVel = 7.536
+    if leftVel <= -7.536:
+        leftVel = -7.536
+    elif rightVel <= -7.536:
+        rightVel = -7.536
     # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {error}, Delta Error: {delta_err}")
     print(f"{leftVel}, {rightVel}, {PID}, {error}, {delta_err}")
     
