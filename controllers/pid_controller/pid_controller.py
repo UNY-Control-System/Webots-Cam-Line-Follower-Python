@@ -1,7 +1,3 @@
-"""pid_controller controller."""
-
-# You may need to import some classes of the controller module. Ex:
-#  from controller import Robot, Motor, DistanceSensor
 from controller import Robot, Camera, DistanceSensor
 import cv2
 import numpy as np
@@ -12,11 +8,6 @@ robot = Robot()
 # get the time step of the current world.
 timestep = int(robot.getBasicTimeStep())
 
-# You should insert a getDevice-like function in order to get the
-# instance of a device of the robot. Something like:
-#  motor = robot.getDevice('motorname')
-#  ds = robot.getDevice('dsname')
-#  ds.enable(timestep)
 camera = robot.getDevice('camera')
 camera.enable(timestep)
 
