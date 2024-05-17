@@ -28,14 +28,12 @@ rightMotor.setPosition(float('inf'))
 leftMotor.setVelocity(0.0)
 rightMotor.setVelocity(0.0)
 
-# PID Configuration
-# prev_angle = 0
-# angle = 0
 e_prev = 0
 integral = 0
 
 scale = 0.65
 
+# PID Configuration
 def CalculatePID(error, integral, derivative):
     Kp = 0.02
     Ki = 0.00000001
@@ -46,11 +44,7 @@ def CalculatePID(error, integral, derivative):
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
 while robot.step(timestep) != -1:
-    # Read the sensors:
-    # Enter here functions to read sensor data, like:
-    #  val = ds.getValue()
-
-    # Process sensor data here.
+    # Access to the camera.
     image = camera.getImage()
     img_np = np.frombuffer(image, np.uint8).reshape((camera.getHeight(), camera.getWidth(), 4))
     img_np = img_np[:, :, :3]
@@ -92,52 +86,51 @@ while robot.step(timestep) != -1:
 
         # Draw the line from the center of the bounding rectangle to the center of the image
         cv2.line(img_np, (center_x, center_y), (x_pot, y_pot), (255, 255, 0), 2)
-
-        # Calculate the angle
-        # angle = np.arctan2(center_y - y_pot, center_x - x_pot)
-        # angle = np.degrees(angle)
-        # I still confused. Should I use angle instead of using delta x or not.
         
         # Calculate the PID
+        # Get the world time
         time = robot.getTime()
+
+        # Get an error (Set Point - Center of bounding rectangle)
         error = x_pot - center_x
+
+        # Calculate the integral
         integral = integral + error
+
+        # Calculate the derivative
         derivative = error - e_prev
 
+        # Get the previous error first to calculate the PID
         if time == 0.032:
             PID = 0
-
         else:
-            # PID = CalculatePID(x_pot, center_x, t_prev, t)
             PID = CalculatePID(error, integral, derivative)
-            # print(f"PID: {PID}, Angle: {angle}")
-
+        
+        # Get the delta error
         delta_err = e_prev - (error)
+
+        # Set the current as previous error to next iteration
         e_prev = error
 
+    # Exit the OpenCV Windows using 'q' key on keyboard
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
-    print(f"{x_pot - center_x}, {delta_err}")
 
     # Set the motors velocity
     leftVel = 3.5 - PID
     rightVel = 3.5 + PID
-    # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {error}")
-
+    # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {error}, Delta Error: {delta_err}")
+    print(f"{leftVel}, {rightVel}, {PID}, {error}, {delta_err}")
+    
     # Set motors velocity
     leftMotor.setVelocity(leftVel)
     rightMotor.setVelocity(rightVel)
 
+    # Show the OpenCV Window
     img_np_resized = cv2.resize(img_np, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
     cv2.imshow("Gray", gray_resized)
     cv2.imshow("Black Mask", black_mask_resized)
-
     cv2.imshow("Webots Camera", img_np_resized)
 
+# Close OpenCV Window when the robot restart
 cv2.destroyAllWindows()
-
-    # Enter here functions to send actuator commands, like:
-    #  motor.setPosition(10.0)
-
-# Enter here exit cleanup code.
