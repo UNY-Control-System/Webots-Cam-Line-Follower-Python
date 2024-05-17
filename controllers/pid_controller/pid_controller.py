@@ -19,6 +19,7 @@ rightMotor.setPosition(float('inf'))
 leftMotor.setVelocity(0.0)
 rightMotor.setVelocity(0.0)
 
+# Set the previous error and integral for PID to zero
 e_prev = 0
 integral = 0
 
