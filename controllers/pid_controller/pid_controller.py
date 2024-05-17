@@ -84,7 +84,7 @@ while robot.step(timestep) != -1:
         # Get the world time
         time = robot.getTime()
 
-        # Get an error (Set Point - Center of bounding rectangle)
+        # Get an error (Set point of the camera - Center of bounding rectangle)
         error = x_pot - center_x
 
         # Calculate the integral
