@@ -36,13 +36,11 @@ integral = 0
 
 scale = 0.65
 
-def CalculatePID(set_point, error, e_prev, integral):
-    Kp = 0.01
+def CalculatePID(error, integral, derivative):
+    Kp = 0.02
     Ki = 0.00000001
     Kd = 0.00001
-    e = set_point - error
-    derivative = e - e_prev
-    u = Kp * e + Ki * integral + Kd * derivative
+    u = Kp * error + Ki * integral + Kd * derivative
     return u
 
 # Main loop:
@@ -99,23 +97,24 @@ while robot.step(timestep) != -1:
         # Calculate the angle
         # angle = np.arctan2(center_y - y_pot, center_x - x_pot)
         # angle = np.degrees(angle)
-        # I still confused. Should I use angle instead of using delta x.
+        # I still confused. Should I use angle instead of using delta x or not.
         
         # Calculate the PID
-        t = robot.getTime()
-        integral = integral + center_x
+        time = robot.getTime()
+        error = x_pot - center_x
+        integral = integral + error
+        derivative = error - e_prev
 
-        if t == 0.032:
+        if time == 0.032:
             PID = 0
 
         else:
             # PID = CalculatePID(x_pot, center_x, t_prev, t)
-            PID = CalculatePID(x_pot, center_x, e_prev, integral)
+            PID = CalculatePID(error, integral, derivative)
             # print(f"PID: {PID}, Angle: {angle}")
 
-        delta_err = e_prev - (x_pot - center_x)
-        t_prev = t
-        e_prev = x_pot - center_x
+        delta_err = e_prev - (error)
+        e_prev = error
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
@@ -123,9 +122,9 @@ while robot.step(timestep) != -1:
     print(f"{x_pot - center_x}, {delta_err}")
 
     # Set the motors velocity
-    leftVel = 5 - PID
-    rightVel = 5 + PID
-    # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {center_x - x_pot}")
+    leftVel = 3.5 - PID
+    rightVel = 3.5 + PID
+    # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {error}")
 
     # Set motors velocity
     leftMotor.setVelocity(leftVel)
