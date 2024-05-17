@@ -23,6 +23,7 @@ rightMotor.setVelocity(0.0)
 e_prev = 0
 integral = 0
 
+# Scale is used for OpenCV Resize Window
 scale = 0.65
 
 # PID Configuration
