@@ -4,13 +4,12 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/gctronic/e-puck/protos/E-puck.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
 
 WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
-  position 0.30392489565016667 0.07688199230768031 1.1141310470870163
+  position 0.2920511322705645 0.06007659649304015 0.9237192468165472
   follow "e-puck"
 }
 TexturedBackground {
@@ -30,17 +29,14 @@ RectangleArena {
     }
     metalness 0
   }
-  wallAppearance BrushedAluminium {
-    textureTransform TextureTransform {
-    }
-  }
+  wallAppearance NULL
 }
 E-puck {
-  translation 0.222459 0.0871292 -4.25233e-05
+  translation 0.222229 0.0371297 -3.69233e-05
   rotation 4.324854182521569e-05 -6.895406851970207e-05 -0.9999999966874501 -1.5662260741055185
   controller "pid_controller"
   version "2"
   camera_width 1280
   camera_height 720
-  camera_rotation 0 1 0 1
+  camera_rotation 0 1 0 0.5
 }

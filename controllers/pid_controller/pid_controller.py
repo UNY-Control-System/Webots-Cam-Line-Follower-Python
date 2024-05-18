@@ -28,9 +28,9 @@ scale = 0.35
 
 # PID Configuration
 def CalculatePID(error, integral, derivative):
-    Kp = 0.02
-    Ki = 0.004
-    Kd = 0.01
+    Kp = 0.0059002274
+    Ki = 0.00000
+    Kd = 0.0000
     u = Kp * error + Ki * integral + Kd * derivative
     return u
 
@@ -52,13 +52,20 @@ while robot.step(timestep) != -1:
     _, black_mask = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV)
     black_mask_resized = cv2.resize(black_mask, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
 
+    # Mask the image
+    mask = np.zeros(gray.shape, np.uint8)
+    mask[0:250, 0:1280] = 255
+    masked_black_mask = cv2.bitwise_or(black_mask, black_mask, mask=mask)
+    masked_black_mask_resized = cv2.resize(masked_black_mask, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
+    
     # Draw the set point circle
     x_pot = int(width/2)
-    y_pot = int(height/2)
+    y_pot = int(height*0.75)
     cv2.circle(img_np, (x_pot, y_pot), 10, (0, 0, 255), -1)
 
     # Find the contours of the black mask
-    contours, _ = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # contours, _ = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(masked_black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     if len(contours) > 0:
         # Get the biggest contour
@@ -68,11 +75,13 @@ while robot.step(timestep) != -1:
         x, y, w, h = cv2.boundingRect(biggest_contour)
 
         # Draw the bounding rectangle
-        cv2.rectangle(img_np, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        # cv2.rectangle(img_np, (x, y), (x+w, y+h), (0, 255, 0), 0)
+        # Draw a cannny from contour and get the center
+        cv2.drawContours(img_np, [biggest_contour], -1, (0, 255, 0), 2)
 
         # Get the center of the bounding rectangle
         center_x = x + w//2
-        center_y = y_pot
+        center_y = y + h//2
 
         # Draw the center of the bounding rectangle
         cv2.circle(img_np, (center_x, center_y), 5, (255, 0, 0), -1)
@@ -85,7 +94,13 @@ while robot.step(timestep) != -1:
         time = robot.getTime()
 
         # Get an error (Set point of the camera - Center of bounding rectangle)
-        error = x_pot - center_x
+        # error = x_pot - center_x
+        # Get an error from angle using degrees
+        error = np.arctan2(center_x - x_pot, center_y - y_pot)
+        error = np.degrees(error)
+        error = 180 - error
+
+        print(f"Error: {error}")
 
         # Calculate the integral
         integral = integral + error
@@ -107,17 +122,25 @@ while robot.step(timestep) != -1:
         break
 
     # Set the motors velocity
-    leftVel = 6 - PID
-    rightVel = 6 + PID
+    # leftVel = 6 - PID
+    # rightVel = 6 + PID
 
-    if leftVel >= 7.536:
-        leftVel = 7.536
-    elif rightVel >= 7.536:
-        rightVel = 7.536
-    if leftVel <= -7.536:
-        leftVel = -7.536
-    elif rightVel <= -7.536:
-        rightVel = -7.536
+    base_speed = 6
+    adjust_speed = base_speed - PID
+
+    print(base_speed, adjust_speed)
+
+    leftVel = adjust_speed + PID
+    rightVel = adjust_speed - PID
+
+    if leftVel >= 6.28:
+        leftVel = 6.28
+    elif rightVel >= 6.28:
+        rightVel = 6.28
+    if leftVel < 0:
+        leftVel = 0
+    elif rightVel < 0:
+        rightVel = 0
     # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {error}, Delta Error: {delta_err}")
     print(f"{leftVel}, {rightVel}, {PID}, {error}, {delta_err}")
     
@@ -129,6 +152,7 @@ while robot.step(timestep) != -1:
     img_np_resized = cv2.resize(img_np, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
     cv2.imshow("Gray", gray_resized)
     cv2.imshow("Black Mask", black_mask_resized)
+    cv2.imshow("Masked Black Mask", masked_black_mask_resized)
     cv2.imshow("Webots Camera", img_np_resized)
 
 # Close OpenCV Window when the robot restart
