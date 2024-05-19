@@ -26,21 +26,23 @@ integral, PID, delta_err, adj_speed = 0, 0, 0, 0
 # Scale is used for OpenCV Resize Window
 scale = 0.35
 
-# PID Configuration
+# Steer PID Configuration
 def SteerPID(error, integral, derivative):
-    Kp = 0.05
-    Ki = 0.000000001
-    Kd = 0.001
+    Kp = 0.03
+    Ki = 0.0000001
+    Kd = 0.00001
     u = Kp * error + Ki * integral + Kd * derivative
     return u
 
-# PID Configuration
+# Speed PID Configuration
 def SpeedPID(error, integral, derivative):
-    Kp = 0.025
-    Ki = 0.0001
-    Kd = 0.000001
+    Kp = 0.1
+    Ki = 0.000001
+    Kd = 0.002
     u = Kp * error + Ki * integral + Kd * derivative
     return u
+
+print("Left Motor, Right Motor, Steer, Base Speed, Error, Delta Error, Angle")
 
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
@@ -58,21 +60,18 @@ while robot.step(timestep) != -1:
 
     # Filter the color
     _, black_mask = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV)
-    black_mask_resized = cv2.resize(black_mask, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
 
     # Mask the image
     mask = np.zeros(gray.shape, np.uint8)
-    mask[0:250, 0:1280] = 255
+    mask[225:650, 0:1280] = 255
     masked_black_mask = cv2.bitwise_or(black_mask, black_mask, mask=mask)
-    masked_black_mask_resized = cv2.resize(masked_black_mask, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
     
     # Draw the set point circle
     x_pot = int(width/2)
-    y_pot = int(height*0.75)
+    y_pot = int(height*0.95)
     cv2.circle(img_np, (x_pot, y_pot), 10, (0, 0, 255), -1)
 
     # Find the contours of the black mask
-    # contours, _ = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours, _ = cv2.findContours(masked_black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     if len(contours) > 0:
@@ -83,7 +82,6 @@ while robot.step(timestep) != -1:
         x, y, w, h = cv2.boundingRect(biggest_contour)
 
         # Draw the bounding rectangle
-        # cv2.rectangle(img_np, (x, y), (x+w, y+h), (0, 255, 0), 0)
         # Draw a cannny from contour and get the center
         cv2.drawContours(img_np, [biggest_contour], -1, (0, 255, 0), 2)
 
@@ -98,21 +96,13 @@ while robot.step(timestep) != -1:
         cv2.line(img_np, (center_x, center_y), (x_pot, y_pot), (255, 255, 0), 2)
         
         # Calculate the PID
-        # Get the world time
-        # time = robot.getTime()
-
-        # Get an error (Set point of the camera - Center of bounding rectangle)
-        # error = x_pot - center_x
         # Get an error from angle using degrees
         angle = np.arctan2(center_y - y_pot, center_x - x_pot)
         angle = np.degrees(angle)
         error = 90 + angle
 
-        # print(f"Error: {error}")
-
         # Calculate the integral
         integral = integral + error
-
 
         # Get the previous error first to calculate the PID then calculate the PID
         if e_prev is not None:
@@ -124,7 +114,6 @@ while robot.step(timestep) != -1:
             # Get the delta error
             delta_err = e_prev - error
         
-
         # Set the current as previous error to next iteration
         e_prev = error
 
@@ -133,32 +122,21 @@ while robot.step(timestep) != -1:
         break
 
     # Set the motors velocity
-    # leftVel = 4 + PID
-    # rightVel = 4 - PID
-    leftVel = 6 - abs(adj_speed) + PID
-    rightVel = 6 - abs(adj_speed) - PID
-    # print(abs(adj_speed))
-    # leftVel = 6 - abs(adj_speed)
-    # rightVel = 6 - abs(adj_speed)
+    leftVel = 6.5 - abs(adj_speed) + PID
+    rightVel = 6.5 - abs(adj_speed) - PID
 
-    # base_speed = 2
-    # adjust_speed = base_speed - PID
-
-    # print(base_speed, adjust_speed)
-
-    # leftVel = base_speed + PID
-    # rightVel = base_speed - PID
-
-    if leftVel >= 6.28:
-        leftVel = 6.28
-    elif rightVel >= 6.28:
-        rightVel = 6.28
+    # Limit the motor velocity
+    if leftVel >= 7.25:
+        leftVel = 7.25
+    elif rightVel >= 7.25:
+        rightVel = 7.25
     if leftVel < 0:
         leftVel = 0
     elif rightVel < 0:
         rightVel = 0
-    # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {error}, Delta Error: {delta_err}")
+    
     print(f"{leftVel}, {rightVel}, {PID}, {adj_speed}, {error}, {delta_err}, {angle}")
+    # print(f"LM: {leftVel}, RM: {rightVel}, Steer: {PID}, BS: {adj_speed}, Err: {error}, DE: {delta_err}, Ang: {angle}")
     
     # Set motors velocity
     leftMotor.setVelocity(leftVel)
@@ -166,10 +144,7 @@ while robot.step(timestep) != -1:
 
     # Show the OpenCV Window
     img_np_resized = cv2.resize(img_np, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
-    # cv2.imshow("Gray", gray_resized)
-    # cv2.imshow("Black Mask", black_mask_resized)
-    # cv2.imshow("Masked Black Mask", masked_black_mask_resized)
-    # cv2.imshow("Webots Camera", img_np_resized)
+    cv2.imshow("Webots Camera", img_np_resized)
 
 # Close OpenCV Window when the robot restart
 cv2.destroyAllWindows()
