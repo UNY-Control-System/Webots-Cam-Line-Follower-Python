@@ -9,7 +9,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943245915045035
-  position 0.2920511322705645 0.06007659649304015 0.9237192468165472
+  position 0.26133937865551804 0.10465810775227363 1.278831159527949
   follow "e-puck"
 }
 TexturedBackground {
@@ -38,5 +38,5 @@ E-puck {
   version "2"
   camera_width 1280
   camera_height 720
-  camera_rotation 0 1 0 0.5
+  camera_rotation 0 1 0 0.55
 }

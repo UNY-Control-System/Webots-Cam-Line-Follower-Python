@@ -19,18 +19,26 @@ rightMotor.setPosition(float('inf'))
 leftMotor.setVelocity(0.0)
 rightMotor.setVelocity(0.0)
 
-# Set the previous error and integral for PID to zero
-e_prev = 0
-integral = 0
+# Set the previous error and integral for PID to null
+e_prev, angle = None, None
+integral, PID, delta_err, adj_speed = 0, 0, 0, 0
 
 # Scale is used for OpenCV Resize Window
 scale = 0.35
 
 # PID Configuration
-def CalculatePID(error, integral, derivative):
-    Kp = 0.0059002274
-    Ki = 0.00000
-    Kd = 0.0000
+def SteerPID(error, integral, derivative):
+    Kp = 0.05
+    Ki = 0.000000001
+    Kd = 0.001
+    u = Kp * error + Ki * integral + Kd * derivative
+    return u
+
+# PID Configuration
+def SpeedPID(error, integral, derivative):
+    Kp = 0.025
+    Ki = 0.0001
+    Kd = 0.000001
     u = Kp * error + Ki * integral + Kd * derivative
     return u
 
@@ -91,28 +99,31 @@ while robot.step(timestep) != -1:
         
         # Calculate the PID
         # Get the world time
-        time = robot.getTime()
+        # time = robot.getTime()
 
         # Get an error (Set point of the camera - Center of bounding rectangle)
         # error = x_pot - center_x
         # Get an error from angle using degrees
-        error = np.arctan2(center_x - x_pot, center_y - y_pot)
-        error = np.degrees(error)
-        error = 180 - error
+        angle = np.arctan2(center_y - y_pot, center_x - x_pot)
+        angle = np.degrees(angle)
+        error = 90 + angle
 
-        print(f"Error: {error}")
+        # print(f"Error: {error}")
 
         # Calculate the integral
         integral = integral + error
 
-        # Calculate the derivative
-        derivative = error - e_prev
 
         # Get the previous error first to calculate the PID then calculate the PID
-        PID = 0 if time == 0.032 else CalculatePID(error, integral, derivative)
+        if e_prev is not None:
+            # Calculate the derivative
+            derivative = error - e_prev
+            PID = SteerPID(error, integral, derivative)
+            adj_speed = SpeedPID(error, integral, derivative)
+
+            # Get the delta error
+            delta_err = e_prev - error
         
-        # Get the delta error
-        delta_err = e_prev - error
 
         # Set the current as previous error to next iteration
         e_prev = error
@@ -122,16 +133,21 @@ while robot.step(timestep) != -1:
         break
 
     # Set the motors velocity
-    # leftVel = 6 - PID
-    # rightVel = 6 + PID
+    # leftVel = 4 + PID
+    # rightVel = 4 - PID
+    leftVel = 6 - abs(adj_speed) + PID
+    rightVel = 6 - abs(adj_speed) - PID
+    # print(abs(adj_speed))
+    # leftVel = 6 - abs(adj_speed)
+    # rightVel = 6 - abs(adj_speed)
 
-    base_speed = 6
-    adjust_speed = base_speed - PID
+    # base_speed = 2
+    # adjust_speed = base_speed - PID
 
-    print(base_speed, adjust_speed)
+    # print(base_speed, adjust_speed)
 
-    leftVel = adjust_speed + PID
-    rightVel = adjust_speed - PID
+    # leftVel = base_speed + PID
+    # rightVel = base_speed - PID
 
     if leftVel >= 6.28:
         leftVel = 6.28
@@ -142,7 +158,7 @@ while robot.step(timestep) != -1:
     elif rightVel < 0:
         rightVel = 0
     # print(f"Left Velocity: {leftVel}, Right Velocity: {rightVel}, PID: {PID}, Error: {error}, Delta Error: {delta_err}")
-    print(f"{leftVel}, {rightVel}, {PID}, {error}, {delta_err}")
+    print(f"{leftVel}, {rightVel}, {PID}, {adj_speed}, {error}, {delta_err}, {angle}")
     
     # Set motors velocity
     leftMotor.setVelocity(leftVel)
@@ -150,10 +166,10 @@ while robot.step(timestep) != -1:
 
     # Show the OpenCV Window
     img_np_resized = cv2.resize(img_np, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
-    cv2.imshow("Gray", gray_resized)
-    cv2.imshow("Black Mask", black_mask_resized)
-    cv2.imshow("Masked Black Mask", masked_black_mask_resized)
-    cv2.imshow("Webots Camera", img_np_resized)
+    # cv2.imshow("Gray", gray_resized)
+    # cv2.imshow("Black Mask", black_mask_resized)
+    # cv2.imshow("Masked Black Mask", masked_black_mask_resized)
+    # cv2.imshow("Webots Camera", img_np_resized)
 
 # Close OpenCV Window when the robot restart
 cv2.destroyAllWindows()
