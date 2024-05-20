@@ -143,8 +143,8 @@ while robot.step(timestep) != -1:
     rightMotor.setVelocity(rightVel)
 
     # Show the OpenCV Window
-    img_np_resized = cv2.resize(img_np, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
-    cv2.imshow("Webots Camera", img_np_resized)
+    # img_np_resized = cv2.resize(img_np, (int(img_np.shape[1] * scale), int(img_np.shape[0] * scale)))
+    # cv2.imshow("Webots Camera", img_np_resized)
 
 # Close OpenCV Window when the robot restart
 cv2.destroyAllWindows()
