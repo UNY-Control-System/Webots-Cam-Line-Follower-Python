@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
-   sodipodi:docname="Custom_Arena_0.svg"
+   sodipodi:docname="advanced_custom_arena.svg"
    inkscape:export-filename="..\..\..\..\Users\zakin\Documents\GitHub\Webots-Cam-Line-Follower-Python\advanced_custom_arena.png"
    inkscape:export-xdpi="1536"
    inkscape:export-ydpi="1536"
@@ -26,9 +26,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.35355339"
-     inkscape:cx="1718.2695"
-     inkscape:cy="2711.0474"
+     inkscape:zoom="0.1767767"
+     inkscape:cx="964.49365"
+     inkscape:cy="1292.5912"
      inkscape:window-width="1920"
      inkscape:window-height="991"
      inkscape:window-x="-9"
@@ -41,7 +41,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-229.06668,-436.06671)">
+     transform="translate(-229.06668,-436.06668)">
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.265751;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect11"
@@ -49,11 +49,6 @@
        height="541.86664"
        x="229.06668"
        y="436.06668" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:5.29167;stroke-dasharray:none;stroke-opacity:1"
-       d="m 412.44241,585.13289 -0.0235,-88.51272 -153.20839,88.51272 v 56.78417 l 0.14653,180.53419 v 27.59636 c 4.91971,18.36054 10.82193,56.18262 43.2265,74.87049 l 137.9896,-0.13356 c 14.42025,0 68.24877,-68.24878 68.24877,-68.24878 l 68.17347,68.15248 h 71.94328 c 0,0 0.27744,-22.39275 0,-44.1544 -0.56187,-44.07416 -0.56187,-43.94251 3.93309,-44.07416 7.94605,0 87.47408,87.47409 87.47408,87.47409 v 0 -123.70703"
-       id="path2"
-       sodipodi:nodetypes="cccccccccccscccc" />
     <path
        id="path4"
        style="fill:none;stroke:#000000;stroke-width:5.29167;stroke-dasharray:none;stroke-opacity:1"
@@ -72,12 +67,7 @@
     <path
        id="path6"
        style="fill:none;stroke:#000000;stroke-width:5.29167;stroke-dasharray:none;stroke-opacity:1"
-       d="m 739.94532,585.13289 v -62.31522 c 4e-5,-12.87845 -6.87045,-24.77867 -18.02345,-31.21803 -5.47993,-3.16394 -11.69615,-4.82965 -18.02388,-4.82969 -6.32772,6e-5 -12.54393,1.66577 -18.02387,4.82969 -11.15316,6.43924 -18.02382,18.33949 -18.02386,31.21803 v 62.31522"
-       sodipodi:nodetypes="ccscccc" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:5.29167;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:5.29167;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 739.94532,585.13289 -22.41086,26.88673 22.5108,26.88674 -22.41085,26.8867 22.5108,26.88675 -22.41084,26.88672 22.5108,26.88672 -22.41086,26.88673 22.51079,26.88672"
-       id="path11"
-       sodipodi:nodetypes="ccccccccc" />
+       d="m 667.85026,585.13289 v -62.31522 c 4e-5,-12.87854 6.8707,-24.77879 18.02386,-31.21803 5.47994,-3.16392 11.69615,-4.82963 18.02387,-4.82969 6.32773,4e-5 12.54395,1.66575 18.02388,4.82969 11.153,6.43936 18.02349,18.33958 18.02345,31.21803 v 62.31522 l -22.41086,26.88673 22.5108,26.88674 -22.41085,26.8867 22.5108,26.88675 -22.41084,26.88672 22.5108,26.88672 -22.41086,26.88673 22.51116,26.88674 3.7e-4,123.70705 v 0 c 0,0 -79.52803,-87.47409 -87.47408,-87.47409 -4.49496,0.13165 -4.49496,0 -3.93309,44.07416 0.27744,21.76165 0,44.1544 0,44.1544 h -71.94328 l -68.17347,-68.15248 c 0,0 -53.82852,68.24878 -68.24877,68.24878 l -137.9896,0.13356 c -32.40457,-18.68787 -38.30679,-56.50995 -43.2265,-74.87049 v -27.59636 l -0.14653,-180.53419 v -56.78417 l 153.20839,-88.51272 0.0235,88.51272"
+       sodipodi:nodetypes="ccccscccccccccccccsccccccccccc" />
   </g>
 </svg>
