@@ -9,7 +9,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
-  position -0.05426034578066502 0.05460584526402338 1.6870968878955535
+  position -0.054258199635071405 0.05460799141568579 2.446087679289137
 }
 TexturedBackground {
 }
@@ -20,7 +20,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "../../Fuzzy-Logic-Line-Follower-Webots-Python-main/Fuzzy-Logic-Line-Follower-Webots-Python-main/arena1.png"
+        "C:/Users/user/Downloads/loop_custom_arena.png"
       ]
       repeatS FALSE
       repeatT FALSE
@@ -31,11 +31,15 @@ RectangleArena {
   wallAppearance NULL
 }
 E-puck {
-  translation -0.372373 0.454723 0.000585242
-  rotation 0.0009546354655728093 -0.000336567164142781 0.9999994876967047 -1.564255307179586
+  translation -0.311008 0.245113 -0.000142585
+  rotation 0.0003558739700659387 -0.00020391698284768207 0.9999999158857873 1.05373
   controller "LINEFOLLOWER"
   version "2"
   camera_width 1280
   camera_height 720
   camera_rotation 0 1 0 0.27
+  turretSlot [
+    GPS {
+    }
+  ]
 }
